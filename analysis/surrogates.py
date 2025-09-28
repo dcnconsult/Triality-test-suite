@@ -20,3 +20,20 @@ def peak_zscore(peak_val: float, null_vals: list[float]):
     z = (peak_val - mu)/sd
     p = 1.0 - 0.5*(1 + np.math.erf(z/np.sqrt(2)))
     return float(z), float(p), float(mu), float(sd)
+
+
+def time_reverse(x: np.ndarray) -> np.ndarray:
+    """Simple time-reversal surrogate."""
+    return np.asarray(x)[::-1].copy()
+
+def block_shuffle(x: np.ndarray, block: int = 1024, seed: int = None) -> np.ndarray:
+    """Shuffle contiguous blocks (destroys long-range phase but preserves local structure)."""
+    rng = np.random.default_rng(seed)
+    x = np.asarray(x)
+    n = len(x)
+    if block <= 1:
+        idx = rng.permutation(n)
+        return x[idx]
+    blocks = [x[i:i+block] for i in range(0, n, block)]
+    rng.shuffle(blocks)
+    return np.concatenate(blocks)[:n]
