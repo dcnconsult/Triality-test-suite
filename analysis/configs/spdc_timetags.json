@@ -1,0 +1,7 @@
+{
+  "path": "/path/to/spdc_time_tags.json",
+  "fs": 1000000.0,
+  "T": null,
+  "seglen": 131072,
+  "outdir": "/mnt/data/spdc_bispec"
+}
