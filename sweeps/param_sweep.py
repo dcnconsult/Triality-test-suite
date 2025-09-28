@@ -1,32 +1,52 @@
 """
 sweeps/param_sweep.py
-Parameter sweep over couplings to assess phase-locking/entrainment metrics.
+Parameter sweep over couplings to assess entrainment metrics (PLV/PAC) + RMS/corr.
 Writes CSV with summary measures.
 """
 import numpy as np
 import pandas as pd
 from model.lagrangian import TrinityModel
-from model.drive import vector_drive
 from sim.pde1d import integrate_1d
 from control.closed_loop import GainController
+from analysis.plv_pac import plv, pac_tort
 
-def summary_metrics(Phi):
+def summary_metrics(Phi, fs):
     """
-    Compute simple metrics: per-field RMS and pairwise correlation over time & space.
+    Compute metrics:
+      - per-field RMS
+      - pairwise correlation (flattened)
+      - PLV in three bands (low ~ drive1, mid ~ drive2, high ~ drive3)
+      - PAC: low-phase → high-amp (1→3), low-phase → mid-amp (1→2)
     Phi: (Nt, Nx, 3)
     """
     rms = np.sqrt((Phi**2).mean(axis=(0,1)))  # (3,)
-    # Flatten time & space for corr:
     flat = Phi.reshape(Phi.shape[0]*Phi.shape[1], 3)
     corr = np.corrcoef(flat, rowvar=False)
+
+    # Extract one spatial point (center) for simplicity in PLV/PAC
+    center = Phi[:, Phi.shape[1]//2, :]  # (Nt, 3)
+    # Bands (Hz)
+    low = (0.2, 0.5)
+    mid = (40.0, 45.0)
+    high = (120.0, 140.0)
+
+    plv_l_12 = plv(center[:,0], center[:,1], fs, *low)
+    plv_m_23 = plv(center[:,1], center[:,2], fs, *mid)
+    plv_h_13 = plv(center[:,0], center[:,2], fs, *high)
+
+    pac_lh_13 = pac_tort(center[:,0], center[:,2], fs, low, high)
+    pac_lm_12 = pac_tort(center[:,0], center[:,1], fs, low, mid)
+
     return {
         "rms1": float(rms[0]), "rms2": float(rms[1]), "rms3": float(rms[2]),
         "corr12": float(corr[0,1]), "corr13": float(corr[0,2]), "corr23": float(corr[1,2]),
+        "plv_low_12": float(plv_l_12), "plv_mid_23": float(plv_m_23), "plv_high_13": float(plv_h_13),
+        "pac_low_high_13": float(pac_lh_13), "pac_low_mid_12": float(pac_lm_12),
     }
 
 def main():
     results = []
-    # Coarse grid over couplings and lambda
+    # Grid over couplings and lambda
     g12_vals = [0.0, 0.02, 0.05]
     g13_vals = [0.0, 0.02, 0.05]
     g23_vals = [0.0, 0.02, 0.05]
@@ -38,13 +58,24 @@ def main():
                 for lam in lam_vals:
                     mdl = TrinityModel(omega=(1.0, 3.5, 5.0), g=(g12,g13,g23), lam=lam)
                     controller = GainController(C_target=0.6, kp=0.8, ki=0.1, kd=0.0, gmin=0.0, gmax=1.0)
-                    drive = lambda t, x: np.column_stack([
-                        0.02*np.sin(2*np.pi*0.3*t)*np.ones_like(x),
-                        0.02*np.sin(2*np.pi*42.0*t)*np.ones_like(x),
-                        0.02*np.sin(2*np.pi*131.95*t)*np.ones_like(x),
-                    ])
-                    t,x,Phi,Vel = integrate_1d(mdl, L=1.0, Nx=128, T=0.5, dt=5e-4, c=1.0, drive=drive, controller=controller)
-                    met = summary_metrics(Phi[int(0.2/5e-4):])  # discard transient
+
+                    # Drive aligned to nominal bands
+                    def drive(t, x):
+                        return np.column_stack([
+                            0.02*np.sin(2*np.pi*0.3*t)*np.ones_like(x),
+                            0.02*np.sin(2*np.pi*42.0*t)*np.ones_like(x),
+                            0.02*np.sin(2*np.pi*131.95*t)*np.ones_like(x),
+                        ])
+
+                    dt = 5e-4
+                    T  = 0.8  # slightly longer run for spectral metrics
+                    t,x,Phi,Vel = integrate_1d(mdl, L=1.0, Nx=128, T=T, dt=dt, c=1.0, drive=drive, controller=controller)
+
+                    # Discard transient
+                    i0 = int(0.2/dt)
+                    Phi_eff = Phi[i0:]
+
+                    met = summary_metrics(Phi_eff, fs=1.0/dt)
                     met.update({"g12":g12,"g13":g13,"g23":g23,"lam":lam})
                     results.append(met)
 
