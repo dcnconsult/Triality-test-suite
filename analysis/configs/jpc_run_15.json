@@ -1,0 +1,11 @@
+{
+  "path": "/path/to/jpc_run_15.csv",
+  "channels": [
+    "mode1_I",
+    "mode2_I",
+    "mode3_I"
+  ],
+  "seglen": 4096,
+  "step": null,
+  "outdir": "/mnt/data/jpc_run_15_plots"
+}
