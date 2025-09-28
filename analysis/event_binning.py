@@ -21,7 +21,16 @@ def load_event_times(path):
     if ext == ".json":
         with open(path, "r") as f:
             obj = json.load(f)
-        chs = [obj[k] for k in obj if k.lower().startswith("ch")]
+        # Accept both ch1/ch2/ch3 and ch_signal/ch_idler/ch_sum
+        keys = []
+        lowered = {k.lower(): k for k in obj.keys()}
+        for want in ["ch1","ch2","ch3","ch_signal","ch_idler","ch_sum"]:
+            if want in lowered:
+                keys.append(lowered[want])
+        if not keys:
+            # fallback: any keys starting with ch
+            keys = [k for k in obj if k.lower().startswith("ch")]
+        chs = [obj[k] for k in keys]
         return [np.asarray(ch, dtype=float) for ch in chs]
     elif ext == ".npz":
         npz = np.load(path)
