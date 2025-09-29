@@ -1,15 +1,22 @@
 
 [project]
 name = "triality"
-version = "0.1.0"
-description = "Triality tri-field scaffold with simulations and protocols"
+version = "11.0.0"
+description = "Triality Test Suite: A rigorous, cross-platform QPC fingerprint with engineering utility"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.11"
 dependencies = [
-    "numpy",
-    "scipy",
-    "matplotlib",
-    "pandas"
+    "numpy>=1.26",
+    "scipy>=1.12",
+    "matplotlib>=3.8",
+    "pandas>=2.2",
+    "pyyaml>=6.0",
+    "statsmodels>=0.14",
+    "scikit-learn>=1.4",
+    "numba>=0.59",
+    "rich>=13.7",
+    "jinja2>=3.1",
+    "pytest>=8.0"
 ]
 
 [build-system]

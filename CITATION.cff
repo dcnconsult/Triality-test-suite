@@ -7,7 +7,7 @@ given-names: Darryl C.
 - name: Contributors
 date-released: 2025-09-28
 license: Apache-2.0
-repository-code: https://github.com/<org>/<repo>
+repository-code: https://github.com/dcn-triality/triality
 preferred-citation:
 type: software
 title: "Triality Test Suite v11"

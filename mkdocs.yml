@@ -1,11 +1,14 @@
 site_name: Triality Test Suite
+
 theme:
-name: material
+  name: material
+
 nav:
-- Home: index.md
-- Replication: replicate.md
-- API: api.md
+  - Home: index.md
+  - Replication: replicate.md
+  - API: api.md
+
 markdown_extensions:
-- admonition
-- toc:
-permalink: true
+  - admonition
+  - toc:
+      permalink: true
