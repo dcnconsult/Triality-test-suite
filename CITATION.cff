@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+title: Triality Test Suite
+version: "11.0.0"
+authors:
+- family-names: Novotny
+given-names: Darryl C.
+- name: Contributors
+date-released: 2025-09-28
+license: Apache-2.0
+repository-code: https://github.com/<org>/<repo>
+preferred-citation:
+type: software
+title: "Triality Test Suite v11"
+year: 2025
+authors:
+- family-names: Novotny
+given-names: Darryl C.
