@@ -123,11 +123,15 @@ celerybeat.pid
 # Environments
 .env
 .venv
-env/
 venv/
 ENV/
 env.bak/
 venv.bak/
+
+# Project-specific env folder (keep this one)
+!env/
+!env/*.yml
+!env/*.txt
 
 # Spyder project settings
 .spyderproject
