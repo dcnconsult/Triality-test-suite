@@ -98,14 +98,37 @@ triality/
 
 ## Quick Start
 
-### 1) Environment
+### 1) Environment Setup
+
+#### Option A: Conda (Recommended)
 ```bash
-# Conda (recommended)
+# Create and activate conda environment
 conda env create -f env/environment.yml
 conda activate triality
 
-# Optional GPU
+# Install project in editable mode
+pip install -e .
+
+# Optional GPU support
 # conda env create -f env/environment-cuda.yml
+```
+
+#### Option B: pip
+```bash
+# Create virtual environment (recommended)
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies and project
+pip install -r env/requirements.txt
+pip install -e .
+```
+
+#### Cross-Platform Module Access
+After installation, all modules are accessible from anywhere:
+```bash
+# These imports now work from any directory
+python -c "from sweeps.param_sweep import main; from analysis.plot_sweep import main"
 ```
 
 ### 2) Data Layout
@@ -130,6 +153,8 @@ python analysis/run_plots.py
 # Universality Report
 python analysis/report_universality.py
 ```
+
+> **Cross-Platform Note:** After `pip install -e .`, all scripts can be run from any directory. All CLI tools resolve inputs and outputs relative to the repository root. Defaults write to the `out/` directory so the workflow stays portable across Windows and Linux.
 
 ### 4) Replication
 ```bash

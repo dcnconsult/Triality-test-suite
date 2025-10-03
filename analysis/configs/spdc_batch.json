@@ -1,8 +1,9 @@
 {
-  "glob": "/mnt/data/spdc_detuned_run_*.json",
+  "glob": "data/spdc/spdc_detuned_run_*.json",
   "fs_bin": 1000000.0,
   "seglen": 131072,
   "B": 50,
-  "out_csv": "/mnt/data/spdc_batch_summary.csv",
-  "outdir": "/mnt/data/spdc_plots"
+  "out_csv": "out/spdc_batch_summary.csv",
+  "outdir": "out/spdc_plots"
 }
+
