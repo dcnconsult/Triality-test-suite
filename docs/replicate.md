@@ -1,4 +1,4 @@
-# Replicate v11 (10 minutes)
+# Replicate v11.1 (10 minutes)
 
 ## Quick Start
 
@@ -27,6 +27,6 @@ python analysis/report_universality.py
 
 ## Expected Outputs
 
-- `reports/v11_universality.md` - Main universality report
+- `reports/v11.1_universality.md` - Main universality report
 - `reports/figures/` - Generated plots and visualizations
 - `data/processed/` - Processed analysis results

@@ -4,6 +4,7 @@ Phase-shuffle surrogates for significance testing of bicoherence peaks.
 """
 from __future__ import annotations
 import numpy as np
+import math
 
 def phase_randomize(x: np.ndarray, seed: int=None) -> np.ndarray:
     rng = np.random.default_rng(seed)
@@ -18,7 +19,7 @@ def peak_zscore(peak_val: float, null_vals: list[float]):
     mu = null.mean()
     sd = null.std(ddof=1) + 1e-12
     z = (peak_val - mu)/sd
-    p = 1.0 - 0.5*(1 + np.math.erf(z/np.sqrt(2)))
+    p = 1.0 - 0.5*(1 + math.erf(z/np.sqrt(2)))
     return float(z), float(p), float(mu), float(sd)
 
 

@@ -4,7 +4,7 @@
 Reproducible detection of triadic, phase-locked hotspots across JPC and SPDC.
 
 
-- **Latest release:** v11.0.0 (2025-09-28)
+- **Latest release:** v11.1.0 (2025-01-03)
 - **License:** Apache-2.0
 - **Contact:** Darryl C. Novotny — darryl@thenovotnys.com
 

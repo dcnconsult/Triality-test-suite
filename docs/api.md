@@ -3,7 +3,7 @@ CLI
 
 triality.py run --target {jpc,spdc,cross} --config <yaml> --outdir <dir> [--seed 1337]
 
-triality.py report --inputs <dir1> <dir2> --config configs/report_v11.yaml --outdir reports/
+triality.py report --inputs <dir1> <dir2> --config configs/report_v11.1.yaml --outdir reports/
 
 Key Modules
 

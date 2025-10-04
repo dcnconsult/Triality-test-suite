@@ -1,7 +1,7 @@
 
 [project]
 name = "triality"
-version = "11.0.0"
+version = "11.1.0"
 description = "Triality Test Suite: A rigorous, cross-platform QPC fingerprint with engineering utility"
 readme = "README.md"
 requires-python = ">=3.11"

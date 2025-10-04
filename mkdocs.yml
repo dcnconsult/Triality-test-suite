@@ -7,6 +7,8 @@ nav:
   - Home: index.md
   - Replication: replicate.md
   - API: api.md
+  - Theory: theory.md
+  - Discipline: discipline.md
 
 markdown_extensions:
   - admonition

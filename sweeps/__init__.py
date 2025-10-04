@@ -5,4 +5,4 @@ This module contains parameter sweep implementations for exploring
 quantum phase coherence behavior across different coupling configurations.
 """
 
-__version__ = "11.0.0"
+__version__ = "11.1.0"

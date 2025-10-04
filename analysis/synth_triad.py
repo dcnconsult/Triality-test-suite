@@ -11,7 +11,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = PROJECT_ROOT / "data" / "synthetic"
 
 
-def make_triad(fs=1000.0, T=4.0, f1=42.0, f2=7.0, amps=(1.0, 1.0, 1.0), noise=0.3, seed=7):
+def make_triad(fs=1000.0, T=4.096, f1=42.0, f2=7.0, amps=(1.0, 1.0, 1.0), noise=0.3, seed=7):
     rng = np.random.default_rng(seed)
     N = int(T * fs)
     t = np.arange(N) / fs
@@ -23,7 +23,7 @@ def make_triad(fs=1000.0, T=4.0, f1=42.0, f2=7.0, amps=(1.0, 1.0, 1.0), noise=0.
 
 if __name__ == "__main__":
     t, X = make_triad()
-    df = pd.DataFrame({"time": t, "ch1": X[:, 0], "ch2": X[:, 1], "ch3": X[:, 2]})
+    df = pd.DataFrame({"time": t, "mode1_I": X[:, 0], "mode2_I": X[:, 1], "mode3_I": X[:, 2]})
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     out_path = DATA_DIR / "triad_test.csv"
     df.to_csv(out_path, index=False)
